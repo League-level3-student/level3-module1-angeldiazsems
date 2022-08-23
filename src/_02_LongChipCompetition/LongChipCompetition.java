@@ -16,13 +16,25 @@ public class LongChipCompetition {
     public static void main(String[] args) {
         LongChipCompetition lcc = new LongChipCompetition();
         lcc.initializeBeatles();
+        double e = 0;
+        String n = "";
         for(int i = 0; i < lcc.theBeatles.size();i++) {
         	Beatle b = lcc.theBeatles.get(i);
+        	String name = b.getName();
         	ArrayList<Chip> c = b.getChips();
-System.out.println(b.getChips());
-String name = b.getName();
+        	for(int j = 0; j < c.size();j++) {
+        		double h = c.get(j).getLength();
+        		if(h > e) {
+        			e = h;
+        			n = name;
+        		}
+
+        	}
         	
         }
+        System.out.println("Beatle:"+n+", Length:"+e);
+
+        
     }
 
     private void initializeBeatles() {
