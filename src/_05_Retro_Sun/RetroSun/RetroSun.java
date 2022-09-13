@@ -1,5 +1,7 @@
 package _05_Retro_Sun.RetroSun;
 
+import java.util.ArrayList;
+
 import processing.core.PApplet;
 
 /*45
@@ -60,22 +62,30 @@ public class RetroSun extends PApplet {
         // the pixels[] array
         // https://processing.org/reference/loadPixels_.html
         loadPixels();
-        pixel[]
+
         // We want to change the color of our sun so use an if statement
         // to check if the pixel is the color of the yellow circle.
         
         // If pixel[i] is the same color as the color of our circle (sunColors[0]),
         // we need to map the pixel to a color in our sunColors[] array
         // (see 2nd gradient image in RetroSun.html)
-
+        for(int i = 0 ; i < pixels.length; i++) {
+        	if(pixels[i] == sunColors[0]) {
+        		int y = i / width;
+                float step = map(y, sunColors[0], sunColors[sunColors.length-1], 0, 1);
+                int c = interpolateColor(sunColors, step);
+                pixels[i] = c;
+        	}
+        	
+            
+        }
+        updatePixels();
         // The top of the sun is yellow (sunColors[0]) and the bottom
         // of the sun is red (sunColors[sunColors.length - 1]
 
         // In order to get the right color, the y value from the top of
         // the sun to the bottom has to be mapped to a range from 0 to 1.
         // Use the map() function to do that:
-        // int y = i / width;
-        // float step = map(y, sunTopY, sunBottomY, 0, 1);
 
         // Call interpolateColor(sunColors, step) and save the color
         // variable that's returned
@@ -95,16 +105,16 @@ public class RetroSun extends PApplet {
          */
 
         // Set the fill color to the background color
-
+        //fill(bgColor);
         // To draw each rectangle we need to find its x, y, width, height
         // *The y position can be any value within the sun:
-        //  float y = width / 2;
+        float y = width / 2;
         // *The height can be any value you choose:
-        //  float h = 40;
+        float h = 40;
         // *The x position can be the center of the sun's x position minus the radius:
-        //  float x = sunCenterX - sunRadius
+        float x = 200 - 50;
         // *The width can be 2 times the radius
-        //  float w = 2 * sunRadius
+        float w = 2 * 50;
         
         // Do you see a section missing from the sun like in the 3rd image?
 
@@ -186,7 +196,7 @@ public class RetroSun extends PApplet {
 
     // Feel free to use this class to create a list of missing
     // sections in the sun, for example:
-    // ArrayList<Rectangle> sections = new ArrayList<Rectangle>();
+     //ArrayList<Rectangle> sections = new ArrayList<Rectangle>();
     class Rectangle {
         float x, y, w, h;
 
