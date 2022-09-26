@@ -46,7 +46,7 @@ public class RetroSun extends PApplet {
 		w = 2 * 50;
 		x = 400 - 50;
 		
-		y2 = 370;
+		y2 = 320;
 		h2 = 70;
 		w2 = 2 * 50;
 		x2 = 400 - 50;
@@ -141,7 +141,7 @@ public class RetroSun extends PApplet {
 		// draw function AND initialize it in the setup() function.
 
 		// Do you see the rectangle moving upwards?
-			rect(x, y , w, h);
+			rect(x, y+30 , w, h);
 			if (y >= 250) {
 				y--;
 				h--;
@@ -151,16 +151,6 @@ public class RetroSun extends PApplet {
 				y = 320;
 				h = 70;
 			}
-			rect(x2, y2, w2, h2);
-			if (y2 >= 250) {
-				y2--;
-				h2--;
-			} 
-			else if (y2 <= 300) {
-				y2 = 320;
-				h2 = 70;
-			}
-		
 
 		// Pick a y positon to be the location when the sections stop moving up.
 		// If the rectangle's y positon is above this, move the rectangle's
@@ -171,7 +161,6 @@ public class RetroSun extends PApplet {
 		// Decrease the the height of the rectangle as it moves upwards.
 		// Similar to the y positon, a float variable for the height needs to be
 		// created if it doesn't already exist.
-		rect(x, y + 50, w, h);
 		// Adjust the amount to decrease so that it disappears close to the top.
 		// HINT: You can use the map() function again,
 		h = map(y, 250, 390, 1, 40);
