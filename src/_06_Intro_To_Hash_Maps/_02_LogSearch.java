@@ -26,9 +26,9 @@ public class _02_LogSearch implements ActionListener {
 	JButton search = new JButton("Search by ID");
 	JButton view = new JButton("View List");
 	JButton remove = new JButton("Remove Entry");
+	
 	int found = 0;
 	int removed = 0;
-	int test;
 	int count = 0;
 	String[] name = new String[10];
 	int[] id = new int[10];
@@ -66,7 +66,6 @@ public class _02_LogSearch implements ActionListener {
 		search.addActionListener(this);
 		view.addActionListener(this);
 		remove.addActionListener(this);
-
 	}
 
 	@Override
@@ -76,46 +75,41 @@ public class _02_LogSearch implements ActionListener {
 		if (arg0.getSource().equals(add)) {
 			String id2 = JOptionPane.showInputDialog("Enter an ID");
 			String name2 = JOptionPane.showInputDialog("Enter your name");
-			test = Integer.parseInt(id2);
-			id[count] = test;
-			name[count] = name2;
+			int test = Integer.parseInt(id2);
 			values.put(test, name2);
-			count++;
 		}
 
 		if (arg0.getSource().equals(search)) {
 			String s = JOptionPane.showInputDialog("Search an id");
 			int e = Integer.parseInt(s);
-			for (int i = 0; i < id.length; i++) {
-				if (e == id[i]) {
-					JOptionPane.showMessageDialog(null, "" + name[i]);
-					found = 1;
+				if (values.containsKey(e)) {
+					JOptionPane.showMessageDialog(null, "" + values.get(e));
 				}
-			}
-			if (found == 0) {
+			
+				else {
 				JOptionPane.showMessageDialog(null, "ID does not exist");
 			}
 		}
-
+		
+		
 		if (arg0.getSource().equals(view)) {
-			for (int i = 0; i < id.length; i++) {
-
-				System.out.println("ID: " + id[i] + ", Name: " + name[i]);
+			for (Integer i : values.keySet()) {
+				
+				System.out.println("ID: " + i + ", Name: " + values.get(i));
+				}
 
 			}
-		}
+		
 
 		if (arg0.getSource().equals(remove)) {
 			String f = JOptionPane.showInputDialog("Enter an id you want to remove");
 			int x = Integer.parseInt(f);
-			for (int i = 0; i < id.length; i++) {
-				if (x == id[i]) {
-					values.remove(id[i]);
-					removed = 1;
+			if(values.containsKey(x)) {
+					values.remove(x);
 					JOptionPane.showMessageDialog(null, "ID has been removed");
-				}
 			}
-			if (removed == 0) {
+			
+			else {
 				JOptionPane.showMessageDialog(null, "That ID does not exist");
 			}
 
