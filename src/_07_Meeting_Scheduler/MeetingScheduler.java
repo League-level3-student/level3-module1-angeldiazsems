@@ -24,16 +24,18 @@ public class MeetingScheduler {
 	 * time zones
 	 */
 	public static Schedule getMutualAvailability(Schedule person1, Schedule person2) {
+		int count = 0;
 		Schedule mutual = new Schedule();
 		HashMap<String, ArrayList<Integer>> availability1 = person1.getSchedule();
-		HashMap<String, ArrayList<Integer>> availability2 = person1.getSchedule();
+		HashMap<String, ArrayList<Integer>> availability2 = person2.getSchedule();
 		
-		for (String d : availability1.keySet()) {
-			ArrayList<Integer> time1 = availability1.get(d);
-			ArrayList<Integer> time2 = availability2.get(d);
-			if(time1 == time2) {
-				int c = time1[0];
-				mutual.addAvailability(d, startTime);
+		for (String day : availability1.keySet()) {
+			ArrayList<Integer> time1 = availability1.get(day);
+			ArrayList<Integer> time2 = availability2.get(day);
+			if(time1[] == time2[]) {
+				int c = time1.get(0);
+				mutual.addAvailability(day, c);
+				count++;
 			}
 			
 		}
