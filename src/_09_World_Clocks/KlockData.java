@@ -6,6 +6,9 @@ import java.util.TimeZone;
 public class KlockData {
 TimeZone timezone;
 Calendar calendar;
+String city;
+String datestr;
+String timestr;
 
 
 }

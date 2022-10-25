@@ -40,6 +40,8 @@ import javax.swing.Timer;
 
 public class WorldClocks implements ActionListener {
 	ArrayList<KlockData> klocks = new ArrayList<KlockData>();
+	//arraylist of klockdata
+	
 	ClockUtilities clockUtil;
 	Timer timer;
 	TimeZone timeZone;
@@ -52,41 +54,42 @@ public class WorldClocks implements ActionListener {
 
 	JButton button = new JButton("add a city");
 
-	String city;
-	String city2;
-	String dateStr;
-	String timeStr;
-	String timeStr2;
-
 	public WorldClocks() {
 		clockUtil = new ClockUtilities();
 
 		// The format for the city must be: city, country (all caps)
-		city = "Chicago, US";
-		city2 = "San Diego, US";
+		String city = "Chicago, US";
+		String city2 = "San Diego, US";
 
 		
-	
 		timeZone = clockUtil.getTimeZoneFromCityName(city);
 		timeZone2 = clockUtil.getTimeZoneFromCityName(city2);
-		//get a timezone from the city. set it to the timezone object we have
 		
+
 		Calendar calendar = Calendar.getInstance(timeZone);
-		//making a calendar object from the timezone you have
+		//making a calendar object from the timezone we have
 
 		KlockData klock = new KlockData();
 		klock.timezone = timeZone;
 		klock.calendar = calendar;
+		klock.city = city;
+		klock.datestr = dateStr;
+		klock.timestr = timeStr;
 		klocks.add(klock);
-		//making a klock for the timezone and calendar, then storing it in arraylist
+		//making a klock for the 1st timezone and calendar, then storing it in arraylist
 
 		
 
 		KlockData klock2 = new KlockData();
 		klock2.timezone = timeZone2;
 		klock2.calendar = calendar;
+		klock2.city = city;
+		klock2.datestr = dateStr;
+		klock2.timestr = timeStr;
 		klocks.add(klock2);
-
+		
+	
+		
 		
 		String month = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
 		String dayOfWeek = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
@@ -94,7 +97,7 @@ public class WorldClocks implements ActionListener {
 				+ calendar.get(Calendar.YEAR);
 		//creating date
 		
-		System.out.println(dateStr);
+		System.out.println(klocks.get(0).datestr);
 		//print date
 		
 		
@@ -112,10 +115,9 @@ public class WorldClocks implements ActionListener {
 		text.setSize(100, 100);
 		text2.setSize(100, 100);
 		text.setText(city + "\n" + dateStr);
-		//print city name and date on jtextarea
+		//print city name and date on jtext
 		
 		text2.setText(city2 + "\n" + dateStr);
-
 
 		//call actionPerformed every second
 		timer = new Timer(1000, this);
@@ -125,42 +127,31 @@ public class WorldClocks implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		
+		for(int i = 0; i < klocks.size();i++) {
+			
+			
+		
+		KlockData e = klocks.get(i);
+		Calendar c = Calendar.getInstance(e.timezone);
+		//create a new calendar based on the 1st timezone
 
-		
-		Calendar c = Calendar.getInstance(timeZone);
-		//create a new calendar object based on the timezone
-		
-		
-		Calendar c2 = Calendar.getInstance(timeZone2);
-
-		
-		
 		String militaryTime = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND);
 		String twelveHourTime = " [" + c.get(Calendar.HOUR) + ":" + c.get(Calendar.MINUTE) + ":"
 				+ c.get(Calendar.SECOND) + "]";
-		//create military and 12 hour time using new calendar object
+		//create military and 12 hour time
 		
-		
-		String militaryTime2 = c2.get(Calendar.HOUR_OF_DAY) + ":" + c2.get(Calendar.MINUTE) + ":"
-				+ c2.get(Calendar.SECOND);
-		String twelveHourTime2 = " [" + c2.get(Calendar.HOUR) + ":" + c2.get(Calendar.MINUTE) + ":"
-				+ c2.get(Calendar.SECOND) + "]";
 
-		
-		
-		
-		timeStr = militaryTime + twelveHourTime;
+		e.timestr = militaryTime + twelveHourTime;
 		//combine both times into a string
 		
-		timeStr2 = militaryTime2 + twelveHourTime2;
 
-		System.out.println(timeStr);
-		//print time in console
+		System.out.println(e.timestr);
+		//print time 
 		
-		text.setText(city + "\n" + dateStr + "\n" + timeStr);
+		text.setText(e.city + "\n" + e.datestr + "\n" + e.timestr);
 		//print city name, date, and time on jtextarea
 		
-		text2.setText(city2 + "\n" + dateStr + "\n" + timeStr2);
-
+		}
 	}
 }
