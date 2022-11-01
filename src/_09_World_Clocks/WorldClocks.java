@@ -11,6 +11,7 @@ import java.util.TimeZone;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
@@ -40,17 +41,12 @@ import javax.swing.Timer;
 
 public class WorldClocks implements ActionListener {
 	ArrayList<KlockData> klocks = new ArrayList<KlockData>();
-	//arraylist of klockdata
-	
+	// arraylist of klockdata
+
 	ClockUtilities clockUtil;
 	Timer timer;
-	TimeZone timeZone;
-	TimeZone timeZone2;
-
 	JFrame frame;
 	JPanel panel;
-	JTextArea text;
-	JTextArea text2;
 
 	JButton button = new JButton("add a city");
 
@@ -59,99 +55,96 @@ public class WorldClocks implements ActionListener {
 
 		// The format for the city must be: city, country (all caps)
 		String city = "Chicago, US";
-		String city2 = "San Diego, US";
+		
+		frame = new JFrame();
+		panel = new JPanel();
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		frame.setSize(300, 300);
+		frame.add(panel);
+		panel.add(button);
+		cityAdd(city);
+		button.addActionListener(this);
+		
+		timer = new Timer(1000, this);
+		timer.start();
+		
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+
+		if(arg0.getSource().equals(button)) {
+			String city = JOptionPane.showInputDialog("enter a city");
+			cityAdd(city);			
+		}
+		else {
 		
-		timeZone = clockUtil.getTimeZoneFromCityName(city);
-		timeZone2 = clockUtil.getTimeZoneFromCityName(city2);
-		
+		for (int i = 0; i < klocks.size(); i++) {
+
+			KlockData e = klocks.get(i);
+			Calendar c = Calendar.getInstance(e.timezone);
+			// create a new calendar based on the 1st timezone
+
+			String militaryTime = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":"
+					+ c.get(Calendar.SECOND);
+			String twelveHourTime = " [" + c.get(Calendar.HOUR) + ":" + c.get(Calendar.MINUTE) + ":"
+					+ c.get(Calendar.SECOND) + "]";
+			// create military and 12 hour time
+
+			e.timestr = militaryTime + twelveHourTime;
+			// combine both times into a string
+
+			System.out.println(e.timestr);
+			// print time
+
+			e.text.setText(e.city + "\n" + e.datestr + "\n" + e.timestr);
+			// print city name, date, and time on jtextarea
+
+		}
+		}
+	}
+	
+	void cityAdd(String city){
+		TimeZone timeZone = clockUtil.getTimeZoneFromCityName(city);
 
 		Calendar calendar = Calendar.getInstance(timeZone);
-		//making a calendar object from the timezone we have
+		// making a calendar object from the timezone we have
+
+		String month = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+		String dayOfWeek = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+		String dateStr = dayOfWeek + " " + month + " " + calendar.get(Calendar.DAY_OF_MONTH) + " "
+				+ calendar.get(Calendar.YEAR);
+		// creating date
+
+		// making a klock for the 1st timezone and calendar, then storing it in
+		// arraylist
+
+		JTextArea text = new JTextArea();
+	
+		panel.add(text);
+		text.setSize(100, 100);
+		text.setText(city + "\n" + dateStr);
+		// print city name and date on jtext
+
+		// call actionPerformed every second
+		
 
 		KlockData klock = new KlockData();
 		klock.timezone = timeZone;
 		klock.calendar = calendar;
 		klock.city = city;
 		klock.datestr = dateStr;
-		klock.timestr = timeStr;
+		klock.text = text;
 		klocks.add(klock);
-		//making a klock for the 1st timezone and calendar, then storing it in arraylist
-
 		
-
-		KlockData klock2 = new KlockData();
-		klock2.timezone = timeZone2;
-		klock2.calendar = calendar;
-		klock2.city = city;
-		klock2.datestr = dateStr;
-		klock2.timestr = timeStr;
-		klocks.add(klock2);
-		
+	}
 	
-		
-		
-		String month = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
-		String dayOfWeek = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
-		dateStr = dayOfWeek + " " + month + " " + calendar.get(Calendar.DAY_OF_MONTH) + " "
-				+ calendar.get(Calendar.YEAR);
-		//creating date
-		
-		System.out.println(klocks.get(0).datestr);
-		//print date
-		
-		
-		frame = new JFrame();
-		panel = new JPanel();
-		text = new JTextArea();
-		text2 = new JTextArea();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		frame.setSize(300, 300);
-		frame.add(panel);
-		panel.add(button);
-		panel.add(text);
-		panel.add(text2);
-		text.setSize(100, 100);
-		text2.setSize(100, 100);
-		text.setText(city + "\n" + dateStr);
-		//print city name and date on jtext
-		
-		text2.setText(city2 + "\n" + dateStr);
-
-		//call actionPerformed every second
-		timer = new Timer(1000, this);
-		timer.start();
-
+	
+	
+	
 	}
+	
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		
-		for(int i = 0; i < klocks.size();i++) {
-			
-			
-		
-		KlockData e = klocks.get(i);
-		Calendar c = Calendar.getInstance(e.timezone);
-		//create a new calendar based on the 1st timezone
-
-		String militaryTime = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND);
-		String twelveHourTime = " [" + c.get(Calendar.HOUR) + ":" + c.get(Calendar.MINUTE) + ":"
-				+ c.get(Calendar.SECOND) + "]";
-		//create military and 12 hour time
-		
-
-		e.timestr = militaryTime + twelveHourTime;
-		//combine both times into a string
-		
-
-		System.out.println(e.timestr);
-		//print time 
-		
-		text.setText(e.city + "\n" + e.datestr + "\n" + e.timestr);
-		//print city name, date, and time on jtextarea
-		
-		}
-	}
-}
